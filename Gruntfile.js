@@ -40,7 +40,8 @@ module.exports = function(grunt) {
 
     eslint: {
       target: [
-        // Add list of files to lint here
+        'public/client/**/*.js',
+        '*.js'
       ]
     },
 
@@ -48,9 +49,9 @@ module.exports = function(grunt) {
       target: {
         files: [{
           expand: true,
-          cwd: 'release/css', 
+          cwd: 'public/dist', 
           src: ['*.css', '!*.min.css'],
-          dest: 'release/css',
+          dest: 'public/dist/styles',
           ext: '.min.css'
         }]
       }
@@ -118,7 +119,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'eslint', 'test'
+    'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -130,7 +131,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
+    'eslint', 'test', 'build'
   ]);
 
 
