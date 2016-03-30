@@ -33,7 +33,7 @@ module.exports = function(grunt) {
       }, 
       dist: {
         files: {
-          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+          'public/dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
         }
       }
     },
@@ -45,6 +45,15 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'release/css', 
+          src: ['*.css', '!*.min.css'],
+          dest: 'release/css',
+          ext: '.min.css'
+        }]
+      }
     },
 
     watch: {
@@ -109,6 +118,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'eslint', 'test'
   ]);
 
   grunt.registerTask('upload', function(n) {
