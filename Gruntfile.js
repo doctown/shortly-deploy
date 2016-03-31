@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
-        separator: ';',
+        separator: ';'
       },
       dist: {
         src: ['public/client/**/*.js'],
@@ -76,6 +76,10 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: [
+          'git commit -am "Upload from dev environ to production"',
+          'git push live master'
+        ].join('&&')
       }
     },
   });
@@ -102,14 +106,6 @@ module.exports = function(grunt) {
     grunt.task.run([ 'watch' ]);
   });
 
-
-  grunt.registerTask('upload', function(n) {
-    if (grunt.option('prod')) {
-      // add your production server task here
-    }
-    grunt.task.run([ 'server-dev' ]);
-  });
-
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
@@ -119,20 +115,19 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'concat', 'uglify'
+    'eslint', 'test', 'concat', 'uglify', 'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
+      grunt.task.run(['shell:prodServer']);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
   grunt.registerTask('deploy', [
-    'eslint', 'test', 'build'
+    'build', 'upload'
   ]);
-
 
 };
