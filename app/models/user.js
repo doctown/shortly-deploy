@@ -2,6 +2,16 @@ var db = require('../config');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 
+var userSchema = new db.Schema({
+  username: {type: String, required: true, unique: true },
+  password: {type: String, required: true}
+});
+
+userSchema.methods.fetch = userSchema.find;
+
+var User = db.model('User', userSchema);
+
+/*
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
@@ -21,5 +31,5 @@ var User = db.Model.extend({
       });
   }
 });
-
+*/
 module.exports = User;

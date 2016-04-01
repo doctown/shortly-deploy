@@ -1,4 +1,12 @@
 var path = require('path');
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/shortlydb');
+var db = mongoose;
+
+module.exports = db;
+
+/*
 var knex = require('knex')({
   client: 'sqlite3',
   connection: {
@@ -35,5 +43,4 @@ db.knex.schema.hasTable('users').then(function(exists) {
     });
   }
 });
-
-module.exports = db;
+*/
